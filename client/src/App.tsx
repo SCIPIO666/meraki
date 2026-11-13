@@ -11,6 +11,7 @@ import { About } from './sections/About'
 import { FirstCta } from './sections/FirstCta'
 import { Gallery } from './sections/Gallery'
 import { Intro } from './sections/Intro'
+import { ServiceSections } from './sections/ServiceSections'
 import { ServicesList } from './sections/ServicesList'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -56,6 +57,7 @@ function Shell() {
         <ServicesList />
         <FirstCta />
         <About />
+        <ServiceSections />
       </main>
     </>
   )
