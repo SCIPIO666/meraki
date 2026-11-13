@@ -7,7 +7,11 @@ import { Splash } from './components/Splash'
 import { sectionIds } from './data/site'
 import { useActiveSection } from './hooks/useActiveSection'
 import { LenisProvider } from './lib/LenisProvider'
+import { About } from './sections/About'
+import { FirstCta } from './sections/FirstCta'
+import { Gallery } from './sections/Gallery'
 import { Intro } from './sections/Intro'
+import { ServicesList } from './sections/ServicesList'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -48,6 +52,10 @@ function Shell() {
       {/* The strip: scrolls with the page on the right, photo stays fixed behind */}
       <main className="relative z-10 w-full lg:mt-(--strip-top) lg:mr-(--strip-gap) lg:ml-auto lg:w-(--strip-w)">
         <Intro />
+        <Gallery />
+        <ServicesList />
+        <FirstCta />
+        <About />
       </main>
     </>
   )
