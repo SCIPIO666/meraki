@@ -1,12 +1,7 @@
-import { Button } from '../components/Button'
-import { ScrollCue } from '../components/ScrollCue'
 import { site } from '../data/site'
-import { useScroll } from '../lib/lenis-context'
-
-const services = ['Laser Hair Removal', 'Skin Rejuvenation', 'Cryo Fat Freezing', 'Weight Management']
+import { ScrollCue } from '../components/ScrollCue'
 
 export function Hero() {
-  const { scrollTo } = useScroll()
   return (
     <section
       id="home"
@@ -30,36 +25,7 @@ export function Hero() {
           Skin that feels <em className="font-normal text-gold-300">effortless.</em>
         </h1>
 
-        <p data-hero className="mt-8 max-w-md text-base text-cream-100/80 sm:text-lg">
-          Laser hair removal and skin rejuvenation in a calm, clinical space at Greenwood
-          Village — with the facts, the process and a booking button in one place.
-        </p>
-
-        <div data-hero className="mt-10 flex flex-wrap items-center gap-4">
-          <Button variant="solid" href={site.whatsapp} target="_blank" rel="noreferrer">
-            Book a consultation
-          </Button>
-          <button
-            type="button"
-            onClick={() => scrollTo('treatments')}
-            className="px-2 py-4 text-[0.75rem] tracking-[0.25em] text-cream-50 uppercase underline decoration-gold-500 underline-offset-8"
-          >
-            See treatments
-          </button>
-        </div>
       </div>
-
-      <ul
-        data-hero
-        className="relative mt-16 flex flex-wrap gap-x-8 gap-y-2 border-t border-gold-500/30 pt-6 text-[0.7rem] tracking-[0.25em] text-cream-100/70 uppercase"
-      >
-        {services.map((s) => (
-          <li key={s} className="flex items-center gap-3">
-            <span className="size-1 rotate-45 bg-gold-400" />
-            {s}
-          </li>
-        ))}
-      </ul>
     </section>
   )
 }

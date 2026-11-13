@@ -25,9 +25,11 @@ export function Section({ id, eyebrow, title, children, className = '' }: Props)
       >
         {title}
       </h2>
-      <div className="mt-12 max-w-xl" data-reveal>
-        {children}
-      </div>
+      {children ? (
+        <div className="mt-12 max-w-xl" data-reveal>
+          {children}
+        </div>
+      ) : null}
     </section>
   )
 }
