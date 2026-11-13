@@ -1,122 +1,72 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useEffect } from 'react'
+import { Background } from './components/Background'
+import { Nav } from './components/Nav'
+import { Splash } from './components/Splash'
+import { navItems } from './data/site'
+import { useActiveSection } from './hooks/useActiveSection'
+import { LenisProvider } from './lib/LenisProvider'
+import { About } from './sections/About'
+import { Book } from './sections/Book'
+import { Hero } from './sections/Hero'
+import { Results } from './sections/Results'
+import { Treatments } from './sections/Treatments'
 
-function App() {
-  const [count, setCount] = useState(0)
+gsap.registerPlugin(ScrollTrigger)
+
+const sectionIds = navItems.map((n) => n.id)
+
+function Shell() {
+  const active = useActiveSection(sectionIds, 'home')
+
+  // Reveal-on-scroll for anything tagged data-reveal; hero items animate on load.
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((el) => {
+        gsap.from(el, {
+          y: 40,
+          opacity: 0,
+          duration: 1.1,
+          ease: 'expo.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+        })
+      })
+      gsap.from('[data-hero]', {
+        y: 36,
+        opacity: 0,
+        duration: 1.2,
+        ease: 'expo.out',
+        stagger: 0.1,
+        delay: 2.6, // lands as the splash curtain lifts
+      })
+    })
+    return () => ctx.revert()
+  }, [])
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      <Splash />
+      <Background />
+      <Nav active={active} />
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+      {/* The strip: scrolls with the page on the right, photo stays fixed behind */}
+      <main className="relative z-10 w-full lg:mr-(--strip-gap) lg:ml-auto lg:w-(--strip-w)">
+        <Hero />
+        <Treatments />
+        <Results />
+        <About />
+        <Book />
+      </main>
     </>
   )
 }
 
-export default App
+export default function App() {
+  return (
+    <LenisProvider>
+      <Shell />
+    </LenisProvider>
+  )
+}

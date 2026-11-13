@@ -1,111 +1,122 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   MERAKI LASER CENTER — design tokens (Tailwind v4, CSS-first config)
+   Palette lifted from the brand's Instagram: deep burgundy, antique
+   gold, warm cream. Everything below becomes a utility automatically:
+   bg-wine-900, text-gold-400, font-display, tracking-widest-xl, etc.
+------------------------------------------------------------------- */
+@theme {
+  /* Burgundy — wine-900 is the scrolling strip (#4a1020 per the brief) */
+  --color-wine-950: #2b0912;
+  --color-wine-900: #4a1020;
+  --color-wine-800: #5d1629;
+  --color-wine-700: #7a1f38;
+  --color-wine-600: #96304c;
+
+  /* Gold — logo linework, rules, accents */
+  --color-gold-200: #f0dfb8;
+  --color-gold-300: #e4cc92;
+  --color-gold-400: #d3b06b;
+  --color-gold-500: #bf984f;
+  --color-gold-600: #9c7a3a;
+
+  /* Cream — text on burgundy, light surfaces */
+  --color-cream-50: #fffaf2;
+  --color-cream-100: #f8ecdc;
+  --color-cream-200: #eddac1;
+  --color-cream-300: #d9c0a0;
+
+  /* Typography */
+  --font-display: "Cormorant Garamond", "Times New Roman", serif;
+  --font-sans: "Jost", ui-sans-serif, system-ui, sans-serif;
+
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1;
+  --text-eyebrow--letter-spacing: 0.28em;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* Breakpoint where the split layout (strip left / nav right) kicks in */
+  --breakpoint-lg: 64rem;
+}
+
+/* ------------------------------------------------------------------
+   Layout variables (not theme tokens — layout plumbing)
+------------------------------------------------------------------- */
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --strip-w: 46vw; /* width of the scrolling content strip on desktop */
+  --strip-gap: 3vw; /* strip of photo left visible to the right of it */
+  --strip-pad: clamp(1.5rem, 4vw, 4.5rem);
+  --header-h: 4.25rem; /* mobile top bar */
+}
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+@layer base {
+  html {
+    background-color: var(--color-wine-950);
+    -webkit-text-size-adjust: 100%;
+  }
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--color-cream-100);
+    background-color: var(--color-wine-950);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
+  ::selection {
+    background: var(--color-gold-400);
+    color: var(--color-wine-950);
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--color-gold-400);
+    outline-offset: 4px;
+  }
+
+  /* Splash screen: freeze the page until the intro finishes */
+  html.is-loading {
+    overflow: hidden;
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+/* ------------------------------------------------------------------
+   Custom utilities
+------------------------------------------------------------------- */
+@utility eyebrow {
+  font-size: var(--text-eyebrow);
+  line-height: 1;
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--color-gold-400);
+}
+
+@utility strip-x {
+  padding-inline: var(--strip-pad);
+}
+
+@utility rule-gold {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    var(--color-gold-500),
+    color-mix(in oklab, var(--color-gold-500) 0%, transparent)
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
 }
