@@ -4,18 +4,12 @@ import { useEffect } from 'react'
 import { Background } from './components/Background'
 import { Nav } from './components/Nav'
 import { Splash } from './components/Splash'
-import { navItems } from './data/site'
+import { sectionIds } from './data/site'
 import { useActiveSection } from './hooks/useActiveSection'
 import { LenisProvider } from './lib/LenisProvider'
-import { About } from './sections/About'
-import { Book } from './sections/Book'
 import { Intro } from './sections/Intro'
-import { Results } from './sections/Results'
-import { Treatments } from './sections/Treatments'
 
 gsap.registerPlugin(ScrollTrigger)
-
-const sectionIds = navItems.map((n) => n.id)
 
 function Shell() {
   const active = useActiveSection(sectionIds, 'home')
@@ -54,10 +48,6 @@ function Shell() {
       {/* The strip: scrolls with the page on the right, photo stays fixed behind */}
       <main className="relative z-10 w-full lg:mt-(--strip-top) lg:mr-(--strip-gap) lg:ml-auto lg:w-(--strip-w)">
         <Intro />
-        <Treatments />
-        <Results />
-        <About />
-        <Book />
       </main>
     </>
   )

@@ -1,6 +1,6 @@
 import gsap from 'gsap'
 import { useEffect, useRef, useState } from 'react'
-import { navItems, site } from '../data/site'
+import { navItems, serviceIds, site } from '../data/site'
 import { useScroll } from '../lib/lenis-context'
 import { Button } from './Button'
 import { Logo } from './Logo'
@@ -16,7 +16,10 @@ function useNavClick() {
   }
 }
 
-/** Desktop: logo, plain menu list and Book button in the left column; the strip scrolls on the right. */
+/** True while the services list or any single service section is on screen. */
+const inServices = (active: string) => active === 'services' || serviceIds.includes(active)
+
+/** Desktop: logo, menu and Book button in the left column; the strip scrolls on the right. */
 function DesktopNav({ active }: Props) {
   const go = useNavClick()
   return (
@@ -29,20 +32,46 @@ function DesktopNav({ active }: Props) {
       </div>
 
       <nav aria-label="Primary" className="pointer-events-auto">
-        <ul className="m-0 flex list-none flex-col gap-5 p-0">
+        <ul className="m-0 flex list-none flex-col gap-4 p-0 xl:gap-5">
           {navItems.map((item) => {
-            const on = active === item.id
+            const hasKids = !!item.children?.length
+            const open = hasKids && inServices(active)
+            const on = hasKids ? open : active === item.id
             return (
               <li key={item.id}>
                 <a
                   href={`#${item.id}`}
                   onClick={go(item.id)}
-                  aria-current={on ? 'true' : undefined}
+                  aria-current={active === item.id ? 'true' : undefined}
                   data-active={on}
                   className="font-display text-2xl text-cream-100/70 transition-colors duration-500 hover:text-cream-50 data-[active=true]:text-gold-300"
                 >
                   {item.label}
                 </a>
+
+                {hasKids && (
+                  <div
+                    className="grid transition-[grid-template-rows,opacity] duration-700 ease-out-expo"
+                    style={{ gridTemplateRows: open ? '1fr' : '0fr', opacity: open ? 1 : 0 }}
+                    aria-hidden={!open}
+                  >
+                    <ul className="m-0 min-h-0 list-none overflow-hidden p-0">
+                      {item.children!.map((c) => (
+                        <li key={c.id} className="first:pt-3">
+                          <a
+                            href={`#${c.id}`}
+                            onClick={go(c.id)}
+                            tabIndex={open ? 0 : -1}
+                            data-active={active === c.id}
+                            className="inline-block border-l border-gold-500/40 py-1 pl-4 text-[0.8rem] tracking-wide text-cream-100/60 transition-colors duration-500 hover:text-cream-50 data-[active=true]:border-gold-300 data-[active=true]:text-gold-300"
+                          >
+                            {c.label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </li>
             )
           })}
@@ -81,7 +110,7 @@ function MobileNav({ active }: Props) {
         gsap
           .timeline()
           .fromTo(el, { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 0.8, ease: 'expo.inOut' })
-          .from('[data-m-link]', { yPercent: 100, opacity: 0, duration: 0.7, ease: 'expo.out', stagger: 0.06 }, '-=0.35')
+          .from('[data-m-link]', { yPercent: 100, opacity: 0, duration: 0.7, ease: 'expo.out', stagger: 0.05 }, '-=0.35')
       } else {
         start()
         gsap.to(el, {
@@ -94,6 +123,12 @@ function MobileNav({ active }: Props) {
     })
     return () => ctx.revert()
   }, [open, stop, start])
+
+  // Lenis ignores scrollTo while stopped for the open menu, so restart it first.
+  const close = () => {
+    setOpen(false)
+    start()
+  }
 
   return (
     <div className="lg:hidden">
@@ -117,31 +152,49 @@ function MobileNav({ active }: Props) {
       <div
         id="mobile-menu"
         ref={overlay}
-        className="invisible fixed inset-0 z-[45] flex flex-col justify-center bg-wine-900 px-8"
+        className="invisible fixed inset-0 z-[45] overflow-y-auto bg-wine-900 px-8 py-28"
         style={{ clipPath: 'inset(0 0 100% 0)' }}
+        data-lenis-prevent
       >
         <nav aria-label="Primary mobile">
-          <ul className="flex flex-col gap-2">
-            {navItems.map((item, i) => (
-              <li key={item.id} className="overflow-hidden">
-                <a
-                  data-m-link
-                  href={`#${item.id}`}
-                  onClick={go(item.id, () => {
-                    setOpen(false)
-                    start() // Lenis ignores scrollTo while stopped for the open menu
-                  })}
-                  aria-current={active === item.id ? 'true' : undefined}
-                  className={`flex items-baseline gap-4 py-1 font-display text-5xl ${active === item.id ? 'text-gold-300' : 'text-cream-50'}`}
-                >
-                  <span className="text-sm tracking-widest text-gold-500">0{i + 1}</span>
-                  {item.label}
-                </a>
-              </li>
-            ))}
+          <ul className="flex flex-col gap-1">
+            {navItems.map((item) => {
+              const lit = item.children ? inServices(active) : active === item.id
+              return (
+                <li key={item.id}>
+                  <div className="overflow-hidden">
+                    <a
+                      data-m-link
+                      href={`#${item.id}`}
+                      onClick={go(item.id, close)}
+                      aria-current={active === item.id ? 'true' : undefined}
+                      className={`block py-1 font-display text-4xl ${lit ? 'text-gold-300' : 'text-cream-50'}`}
+                    >
+                      {item.label}
+                    </a>
+                  </div>
+                  {item.children && (
+                    <ul className="mt-1 mb-2 flex flex-col">
+                      {item.children.map((c) => (
+                        <li key={c.id} className="overflow-hidden">
+                          <a
+                            data-m-link
+                            href={`#${c.id}`}
+                            onClick={go(c.id, close)}
+                            className={`block border-l border-gold-500/40 py-1.5 pl-4 text-base ${active === c.id ? 'text-gold-300' : 'text-cream-100/70'}`}
+                          >
+                            {c.label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              )
+            })}
           </ul>
         </nav>
-        <Button href={site.whatsapp} target="_blank" rel="noreferrer" className="mt-12 self-start">
+        <Button href={site.whatsapp} target="_blank" rel="noreferrer" className="mt-10">
           Book now
         </Button>
       </div>

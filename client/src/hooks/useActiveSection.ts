@@ -4,7 +4,11 @@ import { useEffect, useState } from 'react'
 
 gsap.registerPlugin(ScrollTrigger)
 
-/** Returns the id of the section currently crossing the middle of the viewport. */
+/**
+ * Returns the id of the section currently crossing the middle of the viewport.
+ * Ids with no matching element yet are skipped, so the nav can list sections
+ * before they exist.
+ */
 export function useActiveSection(ids: readonly string[], fallback: string) {
   const [active, setActive] = useState(fallback)
 
