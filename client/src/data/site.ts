@@ -12,6 +12,14 @@ export const site = {
   background: '/background/background2.jpg',
 } as const
 
+/** The four services offered — laser hair removal is the main one. */
+export const services = [
+  { name: 'Laser Hair Removal', main: true },
+  { name: 'Skin Rejuvenation', main: false },
+  { name: 'Cryo Fat Freezing', main: false },
+  { name: 'Weight Management', main: false },
+] as const
+
 export const navItems = [
   { id: 'home', label: 'Home' },
   { id: 'treatments', label: 'Treatments' },

@@ -9,7 +9,7 @@ import { useActiveSection } from './hooks/useActiveSection'
 import { LenisProvider } from './lib/LenisProvider'
 import { About } from './sections/About'
 import { Book } from './sections/Book'
-import { Hero } from './sections/Hero'
+import { Intro } from './sections/Intro'
 import { Results } from './sections/Results'
 import { Treatments } from './sections/Treatments'
 
@@ -53,7 +53,7 @@ function Shell() {
 
       {/* The strip: scrolls with the page on the right, photo stays fixed behind */}
       <main className="relative z-10 w-full lg:mt-(--strip-top) lg:mr-(--strip-gap) lg:ml-auto lg:w-(--strip-w)">
-        <Hero />
+        <Intro />
         <Treatments />
         <Results />
         <About />
