@@ -2,15 +2,19 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useEffect } from 'react'
 import { Background } from './components/Background'
+import { Footer } from './components/Footer'
 import { Nav } from './components/Nav'
 import { Splash } from './components/Splash'
 import { sectionIds } from './data/site'
 import { useActiveSection } from './hooks/useActiveSection'
 import { LenisProvider } from './lib/LenisProvider'
 import { About } from './sections/About'
+import { Contact } from './sections/Contact'
+import { Faq } from './sections/Faq'
 import { FirstCta } from './sections/FirstCta'
 import { Gallery } from './sections/Gallery'
 import { Intro } from './sections/Intro'
+import { Reviews } from './sections/Reviews'
 import { ServiceSections } from './sections/ServiceSections'
 import { ServicesList } from './sections/ServicesList'
 
@@ -58,6 +62,10 @@ function Shell() {
         <FirstCta />
         <About />
         <ServiceSections />
+        <Reviews />
+        <Faq />
+        <Contact />
+        <Footer />
       </main>
     </>
   )

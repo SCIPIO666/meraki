@@ -8,6 +8,8 @@ export const site = {
   // TODO: confirm the WhatsApp-enabled number with the client
   whatsapp: 'https://wa.me/254722891100',
   instagram: 'https://www.instagram.com/merakilasercenter/',
+  mapsLink: 'https://www.google.com/maps/search/?api=1&query=Greenwood+Village+Nyali+Mombasa',
+  mapsEmbed: 'https://www.google.com/maps?q=Greenwood+Village+Nyali+Mombasa&output=embed',
   /** Public path of the fixed background photo */
   background: '/background/background2.jpg',
 } as const
@@ -83,3 +85,6 @@ export const sectionIds: readonly string[] = navItems.flatMap((n) => [
 ])
 
 export const serviceIds: readonly string[] = services.map((s) => s.id)
+
+/** '0722 891 100' -> 'tel:+254722891100' */
+export const telHref = (phone: string) => `tel:+254${phone.replace(/\s/g, '').replace(/^0/, '')}`
