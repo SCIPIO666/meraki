@@ -2,6 +2,7 @@ import gsap from 'gsap'
 import { useEffect, useRef, useState } from 'react'
 import { navItems, site } from '../data/site'
 import { useScroll } from '../lib/lenis-context'
+import { Button } from './Button'
 import { Logo } from './Logo'
 
 type Props = { active: string }
@@ -49,14 +50,9 @@ function DesktopNav({ active }: Props) {
       </nav>
 
       <div className="pointer-events-auto flex flex-col items-start gap-3 text-[0.7rem] tracking-[0.25em] text-cream-100/70 uppercase">
-        <a
-          href={site.whatsapp}
-          target="_blank"
-          rel="noreferrer"
-          className="border border-gold-500/70 px-10 py-4 text-cream-50 transition-colors duration-500 hover:bg-gold-500 hover:text-wine-950"
-        >
+        <Button href={site.whatsapp} target="_blank" rel="noreferrer">
           Book now
-        </a>
+        </Button>
         <span>{site.area}</span>
       </div>
     </aside>
@@ -145,14 +141,9 @@ function MobileNav({ active }: Props) {
             ))}
           </ul>
         </nav>
-        <a
-          href={site.whatsapp}
-          target="_blank"
-          rel="noreferrer"
-          className="mt-12 self-start border border-gold-500/70 px-6 py-3 text-[0.7rem] tracking-[0.25em] text-cream-50 uppercase"
-        >
-          Book on WhatsApp
-        </a>
+        <Button href={site.whatsapp} target="_blank" rel="noreferrer" className="mt-12 self-start">
+          Book now
+        </Button>
       </div>
     </div>
   )

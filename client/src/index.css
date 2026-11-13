@@ -39,6 +39,18 @@
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
 
+  /* Scroll-cue animations */
+  --animate-sketch-a: sketch-a 16s linear infinite;
+  --animate-sketch-b: sketch-b 22s linear infinite;
+  --animate-wheel: wheel 1.8s var(--ease-out-expo) infinite;
+  @keyframes sketch-a { to { transform: rotate(360deg); } }
+  @keyframes sketch-b { to { transform: translate(3px, -3px) scale(1.06) rotate(-360deg); } }
+  @keyframes wheel {
+    0% { transform: translateY(0); opacity: 1; }
+    70% { transform: translateY(7px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 0; }
+  }
+
   /* Breakpoint where the split layout (strip left / nav right) kicks in */
   --breakpoint-lg: 64rem;
 }
@@ -49,6 +61,7 @@
 :root {
   --strip-w: 46vw; /* width of the scrolling content strip on desktop */
   --strip-gap: 3vw; /* strip of photo left visible to the right of it */
+  --strip-top: 55svh; /* strip starts midway down, then fills the screen as you scroll */
   --strip-pad: clamp(1.5rem, 4vw, 4.5rem);
   --header-h: 4.25rem; /* mobile top bar */
 }

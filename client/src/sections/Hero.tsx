@@ -1,3 +1,5 @@
+import { Button } from '../components/Button'
+import { ScrollCue } from '../components/ScrollCue'
 import { site } from '../data/site'
 import { useScroll } from '../lib/lenis-context'
 
@@ -8,8 +10,10 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="strip-x relative flex min-h-svh flex-col justify-end pt-32 pb-12 lg:justify-between lg:bg-wine-900 lg:pt-44 lg:pb-14"
+      className="strip-x relative flex min-h-svh flex-col justify-end pt-32 pb-12 lg:justify-between lg:bg-wine-900 lg:pt-40 lg:pb-14"
     >
+      <ScrollCue />
+
       {/* mobile: let the fixed photo show through, fade into the strip colour */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-linear-to-t from-wine-900 via-wine-900/80 to-transparent lg:hidden" />
 
@@ -32,14 +36,9 @@ export function Hero() {
         </p>
 
         <div data-hero className="mt-10 flex flex-wrap items-center gap-4">
-          <a
-            href={site.whatsapp}
-            target="_blank"
-            rel="noreferrer"
-            className="bg-gold-400 px-8 py-4 text-[0.75rem] tracking-[0.25em] text-wine-950 uppercase transition-colors duration-500 hover:bg-gold-200"
-          >
+          <Button variant="solid" href={site.whatsapp} target="_blank" rel="noreferrer">
             Book a consultation
-          </a>
+          </Button>
           <button
             type="button"
             onClick={() => scrollTo('treatments')}

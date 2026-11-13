@@ -52,7 +52,7 @@ function Shell() {
       <Nav active={active} />
 
       {/* The strip: scrolls with the page on the right, photo stays fixed behind */}
-      <main className="relative z-10 w-full lg:mr-(--strip-gap) lg:ml-auto lg:w-(--strip-w)">
+      <main className="relative z-10 w-full lg:mt-(--strip-top) lg:mr-(--strip-gap) lg:ml-auto lg:w-(--strip-w)">
         <Hero />
         <Treatments />
         <Results />
