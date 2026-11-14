@@ -45,28 +45,38 @@ function Shell() {
         delay: 2.6, // lands as the splash curtain lifts
       })
     })
+    // Web fonts change text heights, so re-measure triggers once they have loaded.
+    document.fonts?.ready.then(() => ScrollTrigger.refresh())
     return () => ctx.revert()
   }, [])
 
   return (
     <>
+      <a
+        href="#main"
+        className="fixed top-3 left-3 z-[200] -translate-y-20 bg-gold-400 px-4 py-2 text-sm text-wine-950 focus:translate-y-0"
+      >
+        Skip to content
+      </a>
       <Splash />
       <Background />
       <Nav active={active} />
 
       {/* The strip: scrolls with the page on the right, photo stays fixed behind */}
-      <main className="relative z-10 w-full lg:mt-(--strip-top) lg:mr-(--strip-gap) lg:ml-auto lg:w-(--strip-w)">
-        <Intro />
-        <Gallery />
-        <ServicesList />
-        <FirstCta />
-        <About />
-        <ServiceSections />
-        <Reviews />
-        <Faq />
-        <Contact />
+      <div className="relative z-10 w-full lg:mt-(--strip-top) lg:mr-(--strip-gap) lg:ml-auto lg:w-(--strip-w)">
+        <main id="main">
+          <Intro />
+          <Gallery />
+          <ServicesList />
+          <FirstCta />
+          <About />
+          <ServiceSections />
+          <Reviews />
+          <Faq />
+          <Contact />
+        </main>
         <Footer />
-      </main>
+      </div>
     </>
   )
 }

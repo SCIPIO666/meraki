@@ -124,6 +124,13 @@ function MobileNav({ active }: Props) {
     return () => ctx.revert()
   }, [open, stop, start])
 
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false)
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [open])
+
   // Lenis ignores scrollTo while stopped for the open menu, so restart it first.
   const close = () => {
     setOpen(false)

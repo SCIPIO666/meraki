@@ -8,6 +8,7 @@ export function Background() {
         src={site.background}
         alt=""
         decoding="async"
+        fetchPriority="high"
         className="size-full object-cover object-[50%_35%]"
       />
       {/* tint + legibility gradients for the logo and menu on the right */}

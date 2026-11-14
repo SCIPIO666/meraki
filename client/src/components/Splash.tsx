@@ -57,13 +57,13 @@ export function Splash() {
       className="fixed inset-0 z-[100] flex items-center justify-center bg-wine-900"
     >
       <div data-splash-content className="flex flex-col items-center text-cream-50">
-        <h1 className="flex overflow-hidden font-display text-5xl font-medium tracking-[0.2em] sm:text-7xl">
+        <div className="flex overflow-hidden font-display text-5xl font-medium tracking-[0.2em] sm:text-7xl">
           {site.name.toUpperCase().split('').map((c, i) => (
             <span key={i} data-splash-char className="inline-block">
               {c}
             </span>
           ))}
-        </h1>
+        </div>
         <div data-splash-rule className="mt-5 h-px w-40 origin-center bg-gold-500" />
         <p
           data-splash-sub
