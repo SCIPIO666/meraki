@@ -4,7 +4,7 @@ import { ScrollCue } from '../components/ScrollCue'
    TITLE CONTROLS: change these and save. Nothing else needs touching.
 ------------------------------------------------------------------- */
 const TITLE_LINE_1 = 'Feel'
-const TITLE_LINE_2 = 'effortless.'
+const TITLE_LINE_2 = 'confident.'
 
 /** 'left' | 'center' | 'right': where the title sits across the strip */
 const TITLE_ALIGN: 'left' | 'center' | 'right' = 'center'
@@ -53,10 +53,10 @@ export function Intro() {
 
       <div className="relative mx-auto mt-14 w-full max-w-[26rem] lg:mt-[clamp(4rem,16svh,10rem)]">
         <p data-hero className="text-base leading-relaxed text-cream-100/85 sm:text-[1.05rem]">
-          Meraki is a quiet clinic on the first floor of Greenwood Village in Nyali. Most
+          Meraki is a quiet clinic located in Greenwood Village, Nyali. Most
           people come in for laser hair removal and plenty stay on for the rest: skin
-          rejuvenation, cryo fat freezing and weight management. Four treatment rooms, one
-          team, and a plan that starts with your skin.
+          rejuvenation, cryo fat freezing and weight management. Well equipped treatment rooms with  a team of professioanls
+          come together to make you feel confident.
         </p>
       </div>
     </section>
